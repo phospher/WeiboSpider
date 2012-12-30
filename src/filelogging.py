@@ -9,9 +9,10 @@ def createLogger(config):
         raise RuntimeError('LOG_FILE_PATH is not defined')
     
     logFilePath = config.LOG_FILE_PATH
-    handler = TimedRotatingFileHandler(filename=logFilePath, when='D', encoding='utf8')
+    handler = TimedRotatingFileHandler(filename=logFilePath, when='D')
     formatter = Formatter('%(asctime)s--%(message)s')
     handler.setFormatter(formatter)
     logger = logging.getLogger('SpiderLogger')
     logger.addHandler(handler)
+    logger.setLevel(logging.INFO)
     return logger

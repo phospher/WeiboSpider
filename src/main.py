@@ -9,6 +9,6 @@ if __name__ == '__main__':
         import filelogging as logging
     
     
-    logger = logging.createLogger()
+    logger = logging.createLogger(config)
     logger.info('Spider start')
     
