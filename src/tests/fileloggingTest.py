@@ -8,28 +8,43 @@ sys.path.append('..')
 
 import filelogging
 
-def getMockLogger():
-    configMock = Mock()
-    configMock.LOG_FILE_PATH = '/tmp/unittest.log'
-    logger = filelogging.createLogger(configMock)
-    return logger
-
-class CreateLoggerTestWithoutLogFilePath(TestCase):
-    def runTest(self):
+class CreateInfoLoggerTest(TestCase):
+    def setUp(self):
+        configMock = Mock()
+        configMock.INFO_LOG_FILE_PATH = '/tmp/unittest.log'
+        self.logger = filelogging.createInfoLogger(configMock)
+    
+    def test_withoutInfoLogFilePath(self):
         config = None
-        self.assertRaises(RuntimeError, filelogging.createLogger, (config))
-        
-class CreateLoggerTestWithLogFilePath(TestCase):
-    def runTest(self):
-        self.assertIsInstance(getMockLogger(), Logger)
-
-class CreateLoggerTestWithFileName(TestCase):
-    def runTest(self):
-        logger = getMockLogger()
-        handler = logger.handlers[0]
+        self.assertRaises(RuntimeError, filelogging.createInfoLogger, (config))
+    
+    def test_withInfoLogFilePath(self):
+        self.assertIsInstance(self.logger, Logger)
+    
+    def test_filename(self):
+        handler = self.logger.handlers[0]
         self.assertEquals(handler.baseFilename, '/tmp/unittest.log')
+    
+    def test_infoLevel(self):
+        self.assertTrue(self.logger.level & logging.INFO)
 
-class CreateLoggerTestWithInfoLevel(TestCase):
-    def runTest(self):
-        logger = getMockLogger()
-        self.assertTrue(logger.level & logging.INFO)
+
+class CreateErrorLogerTest(TestCase):
+    def setUp(self):
+        configMock = Mock()
+        configMock.ERROR_LOG_FILE_PATH = '/tmp/unittest.log'
+        self.logger = filelogging.createErrorLogger(configMock)
+    
+    def test_withoutErrorLogFilePath(self):
+        config = None
+        self.assertRaises(RuntimeError, filelogging.createErrorLogger, (config))
+    
+    def test_withErrorLogFilePath(self):
+        self.assertIsInstance(self.logger, Logger)
+    
+    def test_filename(self):
+        handler = self.logger.handlers[0]
+        self.assertEqual(handler.baseFilename, '/tmp/unittest.log')
+    
+    def test_errorLevel(self):
+        self.assertTrue(self.logger.level & logging.ERROR)
