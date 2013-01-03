@@ -4,7 +4,8 @@ from logging.handlers import TimedRotatingFileHandler
 from mock import Mock
 import logging
 import sys
-sys.path.append('..')
+
+sys.path.append('../src/')
 
 import filelogging
 
