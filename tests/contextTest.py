@@ -2,6 +2,8 @@ from unittest import TestCase
 import sys
 from mock import Mock
 
+import redis
+
 sys.path.append('../src/')
 
 from weibo.context import RedisContext
@@ -61,11 +63,10 @@ class RedisContextTest(TestCase):
         
         self._enqueueUsersTest(assertRpushCallTwice)
     
-    def test_enqueueUsersTestUser0Inserted(self):
+    def test_enqueueUsersTestUser0InsertedOnce(self):
         def assertTestUser1Inserted(redisMock):
             user0List = [x for x in redisMock.rpush.call_args_list if x[0][1] == 'test_user0']
             self.assertEqual(len(user0List), 1)
         
         self._enqueueUsersTest(assertTestUser1Inserted)
         
-

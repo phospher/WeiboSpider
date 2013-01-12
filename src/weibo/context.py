@@ -16,7 +16,7 @@ class RedisContext(object):
     
     def dequeueUser(self):
         result = UserModel()
-        result.name = self.redisClient.lpop()
+        result.name = self.redisClient.lpop(RedisContext.USER_LIST_KEY)
         return result
     
     def existsUser(self, userName):
