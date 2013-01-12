@@ -1,6 +1,6 @@
-__all__ = ['DefaultWeiboProvider']
+__all__ = ['context', 'BreadthFirstWeiboProvider', 'WeiboModel', 'UserModel']
 
-class DefaultWeiboProvider(object):
+class BreadthFirstWeiboProvider(object):
     
     WEIBO_COUNT = 500
     
@@ -11,7 +11,7 @@ class DefaultWeiboProvider(object):
     def getWeibos(self):
         user = self._context.dequeueUser()
         while user is not None:
-            for weibo in self._weiboAPI.getWeibo(user.name, DefaultWeiboProvider.WEIBO_COUNT):
+            for weibo in self._weiboAPI.getWeibo(user.name, BreadthFirstWeiboProvider.WEIBO_COUNT):
                 yield weibo
             else:
                 userList = self._weiboAPI.getFollowingUser(user.name)
