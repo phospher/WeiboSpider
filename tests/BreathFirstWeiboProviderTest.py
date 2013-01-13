@@ -5,7 +5,7 @@ import sys
 
 sys.path.append('../src/')
 
-from weibo import *
+from weibospider import *
 
 class MockContext(object):
     def __init__(self):

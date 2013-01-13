@@ -6,8 +6,8 @@ import redis
 
 sys.path.append('../src/')
 
-from weibo.context import RedisContext
-from weibo import UserModel
+from weibospider.context import RedisContext
+from weibospider import UserModel
 
 class RedisModuleMock(object):
     
