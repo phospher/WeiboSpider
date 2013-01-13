@@ -1,4 +1,4 @@
-from weibo import UserModel
+from weibospider import UserModel
 
 class RedisContext(object):
     

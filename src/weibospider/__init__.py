@@ -1,4 +1,4 @@
-__all__ = ['context', 'BreadthFirstWeiboProvider', 'WeiboModel', 'UserModel']
+__all__ = ['context', 'BreadthFirstWeiboProvider', 'WeiboModel', 'UserModel', 'weiboapi']
 
 class BreadthFirstWeiboProvider(object):
     
