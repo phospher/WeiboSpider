@@ -3,14 +3,14 @@ import re
 def sinaWeiboAutoAuth(apiClient, userName, password, virtualBrowser):
     url = apiClient.get_authorize_url()
     
-    #Open authorize and complete the authorization automatically
+    # Open authorize and complete the authorization automatically
     virtualBrowser.open(url)
     virtualBrowser.select_form(name='authZForm')
     virtualBrowser['userId'] = userName
     virtualBrowser['passwd'] = password
     virtualBrowser.submit()
     
-    #Get the authorization code for requesting access token
+    # Get the authorization code for requesting access token
     redirectUrl = virtualBrowser.response().geturl()
     searchResult = re.search(r'[?&]code=(\S+)', redirectUrl)
     code = searchResult.group(1)
@@ -19,5 +19,6 @@ def sinaWeiboAutoAuth(apiClient, userName, password, virtualBrowser):
     apiClient.set_access_token(request.access_token, request.expires_in)
 
 class SinaWeiboAPI(object):
-    def __init__(self, weiboAPIModule):
-        pass
+    def __init__(self, weiboAPIModule, virtualBrowser, appKey, appSecret, RedirectUri, userName, password):
+        self._apiClient = weiboAPIModule.APIClient(app_key=appKey, app_secret=appSecret, redirect_uri=RedirectUri)
+        sinaWeiboAutoAuth(self._apiClient, userName, password, virtualBrowser)
