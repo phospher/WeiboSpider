@@ -1,6 +1,9 @@
 import re
 from weibospider import WeiboModel
 import time
+from functools import wraps
+import config
+import time
 
 def sinaWeiboAutoAuth(apiClient, userName, password, virtualBrowser):
     url = apiClient.get_authorize_url()
@@ -19,6 +22,21 @@ def sinaWeiboAutoAuth(apiClient, userName, password, virtualBrowser):
     
     request = apiClient.request_access_token(code)
     apiClient.set_access_token(request.access_token, request.expires_in)
+
+def weiboAPIRetryDecorator(func):
+    @wraps(func)
+    def retryFunc(*args, **kw):
+        try:
+            return func(*args, **kw)
+        except ex:
+            if hasattr(config, 'API_RETRY_INTERVAL'):
+                interval = config.API_RETRY_INTERVAL
+            else:
+                interval = 3600
+            time.sleep(interval)
+            return func(*args, **kw)
+    
+    return retryFunc
 
 class SinaWeiboAPI(object):
     def __init__(self, weiboAPIModule, virtualBrowser, appKey, appSecret, RedirectUri, userName, password):
