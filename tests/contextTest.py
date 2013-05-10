@@ -1,10 +1,9 @@
 from unittest import TestCase
 import sys
 from mock import Mock
+import os
 
-import redis
-
-sys.path.append('../src/')
+sys.path.append(os.path.split(os.path.split(os.path.realpath(__file__))[0])[0] + '/src/')
 
 from weibospider.context import RedisContext
 from weibospider import UserModel
