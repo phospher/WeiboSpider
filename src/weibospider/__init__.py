@@ -1,4 +1,4 @@
-__all__ = ['context', 'BreadthFirstWeiboProvider', 'WeiboModel', 'UserModel', 'sinaweiboapi']
+__all__ = ['context', 'BreadthFirstWeiboProvider', 'sinaweiboapi']
 
 class BreadthFirstWeiboProvider(object):
     
@@ -22,15 +22,4 @@ class BreadthFirstWeiboProvider(object):
             raise StopIteration
             
 
-class WeiboModel(object):
-    def __init__(self):
-        self.userName = None
-        self.text = None
-        self.retweetedText = None
-        self.time = None
-        self.id = None
 
-class UserModel(object):
-    def __init__(self):
-        self.id = None
-        self.name = None

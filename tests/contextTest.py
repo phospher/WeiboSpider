@@ -6,7 +6,7 @@ import os
 sys.path.append(os.path.split(os.path.split(os.path.realpath(__file__))[0])[0] + '/src/')
 
 from weibospider.context import RedisContext
-from weibospider import UserModel
+from models import UserModel
 
 class RedisModuleMock(object):
     
@@ -70,4 +70,4 @@ class RedisContextTest(TestCase):
         self._enqueueUsersTest(assertTestUser1Inserted)
         
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)

@@ -2,6 +2,11 @@ import unittest
 import os
 import re
 
+import sys
+import os
+
+sys.path.append(os.path.split(os.path.split(os.path.realpath(__file__))[0])[0] + '/src/')
+
 if __name__ == '__main__':
 	test_modules = []
 	dir_name, cur_file_name = os.path.split(os.path.realpath(__file__))

@@ -7,6 +7,7 @@ import os
 sys.path.append(os.path.split(os.path.split(os.path.realpath(__file__))[0])[0] + '/src/')
 
 from weibospider import *
+from models import *
 
 class MockContext(object):
     def __init__(self):
@@ -86,5 +87,5 @@ class BreadthFirstWeiboProviderTest(unittest.TestCase):
         self.assertEqual(len(actual), 0)
         
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)
         

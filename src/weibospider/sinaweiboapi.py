@@ -1,10 +1,9 @@
 import re
-from weibospider import WeiboModel
-import time
 import config
-import time
 import utils
-from functools import wraps
+import time
+from models import WeiboModel
+from models import UserModel
 
 def sinaWeiboAutoAuth(apiClient, userName, password, virtualBrowser):
     url = apiClient.get_authorize_url()
