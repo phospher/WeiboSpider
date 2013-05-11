@@ -69,3 +69,5 @@ class RedisContextTest(TestCase):
         
         self._enqueueUsersTest(assertTestUser1Inserted)
         
+if __name__ == '__main__':
+    unittest.main()

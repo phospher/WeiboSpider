@@ -4,8 +4,9 @@ from logging.handlers import TimedRotatingFileHandler
 from mock import Mock
 import logging
 import sys
+import os
 
-sys.path.append('../src/')
+sys.path.append(os.path.split(os.path.split(os.path.realpath(__file__))[0])[0] + '/src/')
 
 import filelogging
 
@@ -49,3 +50,6 @@ class CreateErrorLogerTest(TestCase):
     
     def test_errorLevel(self):
         self.assertTrue(self.logger.level & logging.ERROR)
+
+if __name__ == '__main__':
+    unittest.main()

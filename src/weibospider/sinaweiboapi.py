@@ -1,9 +1,10 @@
 import re
 from weibospider import WeiboModel
 import time
-from functools import wraps
 import config
 import time
+import utils
+from functools import wraps
 
 def sinaWeiboAutoAuth(apiClient, userName, password, virtualBrowser):
     url = apiClient.get_authorize_url()
@@ -17,32 +18,20 @@ def sinaWeiboAutoAuth(apiClient, userName, password, virtualBrowser):
     
     # Get the authorization code for requesting access token
     redirectUrl = virtualBrowser.response().geturl()
-    searchResult = re.search(r'[?&]code=(\S+)', redirectUrl)
-    code = searchResult.group(1)
+    searchResult = re.search('[?&]code=(\S+)', redirectUrl)
+    code = searchResult.group(1) if searchResult is not None else ''
     
     request = apiClient.request_access_token(code)
     apiClient.set_access_token(request.access_token, request.expires_in)
 
-def weiboAPIRetryDecorator(func):
-    @wraps(func)
-    def retryFunc(*args, **kw):
-        try:
-            return func(*args, **kw)
-        except ex:
-            if hasattr(config, 'API_RETRY_INTERVAL'):
-                interval = config.API_RETRY_INTERVAL
-            else:
-                interval = 3600
-            time.sleep(interval)
-            return func(*args, **kw)
-    
-    return retryFunc
+
 
 class SinaWeiboAPI(object):
     def __init__(self, weiboAPIModule, virtualBrowser, appKey, appSecret, RedirectUri, userName, password):
         self._apiClient = weiboAPIModule.APIClient(app_key=appKey, app_secret=appSecret, redirect_uri=RedirectUri)
         sinaWeiboAutoAuth(self._apiClient, userName, password, virtualBrowser)
     
+    @utils.weiboAPIRetryDecorator
     def getWeibo(self, userName, weiboMaxCount):
         result = []
         page = 0
@@ -55,12 +44,35 @@ class SinaWeiboAPI(object):
                 weiboModel = WeiboModel()
                 weiboModel.userName = userName
                 weiboModel.text = statuse.text
-                if 'retweeted_status' in statuse:
+                if hasattr(statuse, 'retweeted_status'):
                     weiboModel.retweetedText = statuse.retweeted_status.text
                 weiboModel.time = time.strptime(statuse.created_at, '%a %b %d %H:%M:%S +0800 %Y')
                 weiboModel.id = statuse.id
                 result.append(weiboModel)
+                if len(result) >= weiboMaxCount:
+                    break
         
         return result
+
+    @utils.weiboAPIRetryDecorator
+    def getFollowingUser(self, userName):
+        result = []
+        cursor = 0
+        while True:
+            r = self._apiClient.friendships.friends.get(screen_name=userName, cursor=cursor, count=200)
+            if len(r.users) == 0:
+                break
+            for user in r.users:
+                userModel = UserModel()
+                userModel.id = user.id
+                userModel.name = user.screen_name
+                result.append(userModel)
+            if r.next_cursor == 0:
+                break
+            else:
+                cursor = r.next_cursor
+
+        return result
+
             
                 

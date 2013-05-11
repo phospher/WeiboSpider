@@ -1,9 +1,10 @@
-from unittest import TestCase
+import unittest
 from mock import Mock
 from collections import deque
 import sys
+import os
 
-sys.path.append('../src/')
+sys.path.append(os.path.split(os.path.split(os.path.realpath(__file__))[0])[0] + '/src/')
 
 from weibospider import *
 
@@ -23,7 +24,7 @@ class MockContext(object):
     def existsUser(self, userName):
         return False
         
-class BreadthFirstWeiboProviderTest(TestCase):
+class BreadthFirstWeiboProviderTest(unittest.TestCase):
                    
     def setUp(self):
         self._context = MockContext()
@@ -84,5 +85,6 @@ class BreadthFirstWeiboProviderTest(TestCase):
         actual = list(target.getWeibos())
         self.assertEqual(len(actual), 0)
         
-        
+if __name__ == '__main__':
+    unittest.main()
         

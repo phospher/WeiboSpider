@@ -1,4 +1,4 @@
-__all__ = ['context', 'BreadthFirstWeiboProvider', 'WeiboModel', 'UserModel', 'weiboapi']
+__all__ = ['context', 'BreadthFirstWeiboProvider', 'WeiboModel', 'UserModel', 'sinaweiboapi']
 
 class BreadthFirstWeiboProvider(object):
     
@@ -32,4 +32,5 @@ class WeiboModel(object):
 
 class UserModel(object):
     def __init__(self):
+        self.id = None
         self.name = None
