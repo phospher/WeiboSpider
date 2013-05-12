@@ -14,7 +14,7 @@ class RedisPersistence(object):
 			RedisPersistence.CONNECTION_POOL = redisModule.ConnectionPool(host=RedisPersistence.HOST, port=RedisPersistence.PORT, db=RedisPersistence.DB)
 		self._redisClient = redisModule.Redis(connection_pool=RedisPersistence.CONNECTION_POOL)
 
-	def AddWeibo(self, weiboModel):
+	def addWeibo(self, weiboModel):
 		if self._redisClient.sadd(RedisPersistence.WEIBO_KEY_SET_KEY, weiboModel.id) == 1:
-			self._redisClient.hmset('weibo_' + weiboModel.id, weiboModel)
+			self._redisClient.hmset('weibo_' + str(weiboModel.id), weiboModel)
 		

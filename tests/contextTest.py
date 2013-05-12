@@ -7,17 +7,7 @@ sys.path.append(os.path.split(os.path.split(os.path.realpath(__file__))[0])[0] +
 
 from weibospider.context import RedisContext
 from models import UserModel
-
-class RedisModuleMock(object):
-    
-    def __init__(self, redisMock):
-        self._redisMock = redisMock
-    
-    def ConnectionPool(self, *args, **kwargs):
-        return None
-    
-    def Redis(self, *args, **kwargs):
-        return self._redisMock
+from testutils import RedisModuleMock
 
 class RedisContextTest(TestCase):
     def _dequeueUserInitialize(self):
