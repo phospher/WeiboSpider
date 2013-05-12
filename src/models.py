@@ -1,12 +1,12 @@
-class WeiboModel(object):
-    def __init__(self):
-        self.userName = None
-        self.text = None
-        self.retweetedText = None
-        self.time = None
-        self.id = None
+class DictEntity(dict):
+	def __getattr__(self, attr):
+		return self[attr]
 
-class UserModel(object):
-    def __init__(self):
-        self.id = None
-        self.name = None
+	def __setattr__(self, attr, value):
+		self[attr] = value
+		
+class WeiboModel(DictEntity):
+	pass
+
+class UserModel(DictEntity):
+    pass
