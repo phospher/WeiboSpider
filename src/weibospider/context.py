@@ -1,5 +1,6 @@
 from models import UserModel
 import config
+import utils
 
 class RedisContext(object):
     
@@ -28,3 +29,7 @@ class RedisContext(object):
         for user in userList:
             if self._redisClient.sadd(RedisContext.USER_SET_KEY, user.name) > 0:
                 self._redisClient.rpush(RedisContext.USER_LIST_KEY, user.name)
+
+def createRedisContext():
+    utils.assertConfig('ContextRedisModule')
+    return RedisContext(config.ContextRedisModule)

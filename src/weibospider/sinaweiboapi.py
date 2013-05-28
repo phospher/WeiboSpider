@@ -25,7 +25,7 @@ def sinaWeiboAutoAuth(apiClient, userName, password, virtualBrowser):
 
 
 
-class SinaWeiboAPI(object):
+class SinaWeiboAPIProcesssor(object):
     def __init__(self, weiboAPIModule, virtualBrowser, appKey, appSecret, RedirectUri, userName, password):
         self._apiClient = weiboAPIModule.APIClient(app_key=appKey, app_secret=appSecret, redirect_uri=RedirectUri)
         sinaWeiboAutoAuth(self._apiClient, userName, password, virtualBrowser)

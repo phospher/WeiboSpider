@@ -20,3 +20,6 @@ def weiboAPIRetryDecorator(func):
             else:
                 raise ex
     return retryFunc
+
+def assertConfig(configName):
+    assert hasattr(config, configName), ('%s must be set' % configName)

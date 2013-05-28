@@ -1,4 +1,5 @@
 import config
+import utils
 
 class RedisPersistence(object):
 
@@ -17,4 +18,8 @@ class RedisPersistence(object):
 	def addWeibo(self, weiboModel):
 		if self._redisClient.sadd(RedisPersistence.WEIBO_KEY_SET_KEY, weiboModel.id) == 1:
 			self._redisClient.hmset('weibo_' + str(weiboModel.id), weiboModel)
+
+def createRedisPersistence():
+	utils.assertConifg('PersistenceRedisModule')
+	return RedisPersistence(config.PersistenceRedisModule)
 		
