@@ -2,8 +2,6 @@ import config
 import utils
 import sys
 import os
-import persistence
-import weibospider
 
 sys.path.append(os.path.split(os.path.realpath(__file__))[0])
 
@@ -12,6 +10,9 @@ if hasattr(config, 'LOGGING'):
     logging = __import__(config.LOGGING)
 else:
     import filelogging as logging
+
+import persistence
+import weibospider
 
 if __name__ == '__main__':
     logger = logging.createLogger(config)
