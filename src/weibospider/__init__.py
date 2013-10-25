@@ -10,7 +10,7 @@ class BreadthFirstWeiboProvider(object):
     def __init__(self, weiboAPI, context):
         self._weiboAPI = weiboAPI
         self._context = context
-    
+
     def getWeibos(self):
         user = self._context.dequeueUser()
         while user is not None:

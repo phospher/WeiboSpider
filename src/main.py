@@ -2,6 +2,8 @@ import config
 import utils
 import sys
 import os
+import persistence
+import weibospider
 
 sys.path.append(os.path.split(os.path.realpath(__file__))[0])
 
@@ -11,13 +13,11 @@ if hasattr(config, 'LOGGING'):
 else:
     import filelogging as logging
 
-# Load WeiboIterator
-if hasattr(config, 'WEIBO_PROVIDER'):
-    WeiboProvider = utils.importClass(config.WEIBO_PROVIDER)
-else:
-    from weibo import DefaultWeiboProvider as WeiboProvider
-
 if __name__ == '__main__':
     logger = logging.createLogger(config)
     logger.info('Spider start')
-    
+    weiboProvider = weibospider.createWeiboProvider()
+    persistence = persistence.createRedisPersistence()
+    for weibo in weiboProvider.getWeibos():
+        persistence.addWeibo(weibo)
+    logger.info('Spider End')
